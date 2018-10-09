@@ -13,7 +13,7 @@
         android:theme="@style/DairyTheme">
 
         <activity
-            android:name=".View.SplashActivity"
+            android:name=".View.Activities.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".View.MainActivity"
+            android:name=".View.Activities.MainActivity"
             android:label="@string/title_activity_main" />
     </application>
 

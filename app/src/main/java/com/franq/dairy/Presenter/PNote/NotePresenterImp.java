@@ -1,8 +1,9 @@
 package com.franq.dairy.Presenter.PNote;
 
-import com.franq.dairy.Model.Note;
-import com.franq.dairy.Model.NotesModel;
-import com.franq.dairy.View.NoteFragment;
+import com.franq.dairy.Model.DataBase.Note;
+import com.franq.dairy.Model.DataBase.NotesModel;
+import com.franq.dairy.Presenter.BasePresenter;
+import com.franq.dairy.View.Fragments.NoteFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,24 +12,13 @@ import java.util.UUID;
 
 import io.realm.RealmResults;
 
-public class NotePresenterImp implements NotePresenter {
+public class NotePresenterImp extends BasePresenter<NoteFragment> implements NotePresenter {
 
     private NotesModel model;
-    private NoteFragment noteFragment;
-
-    @Override
-    public void attachFragment(NoteFragment fragment) {
-        noteFragment = fragment;
-    }
-
-    @Override
-    public void detachFragment() {
-        noteFragment = null;
-    }
 
     @Override
     public void openDB() {
-        this.model = new NotesModel(noteFragment.getContext());
+        this.model = new NotesModel(view.getContext());
         model.init();
     }
 

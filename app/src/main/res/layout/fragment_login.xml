@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.LoginFragment">
+    tools:context=".View.Fragments.LoginFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
+        android:id="@+id/loginLayout"
         android:layout_height="match_parent">
 
         <EditText
@@ -31,31 +32,45 @@
             android:id="@+id/passEditText"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="44dp"
+            android:layout_marginEnd="8dp"
             android:ems="10"
             android:hint="Пароль"
             android:inputType="textPassword"
-            app:layout_constraintBottom_toTopOf="@+id/loginButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.613"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/loginEditText"
-            app:layout_constraintVertical_bias="0.073" />
+            app:layout_constraintTop_toBottomOf="@+id/loginEditText" />
 
         <Button
             android:id="@+id/loginButton"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="92dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="112dp"
+            android:layout_marginEnd="8dp"
             android:text="Войти"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.602"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/passEditText" />
+
+        <Button
+            android:id="@+id/login_registerButton"
+            android:layout_width="276dp"
+            android:layout_height="47dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="Зарегестрироваться"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="0.576"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/loginButton"
+            app:layout_constraintVertical_bias="0.363" />
 
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>

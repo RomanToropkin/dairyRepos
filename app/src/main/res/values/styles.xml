@@ -7,6 +7,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:navigationBarColor">@color/colorAccent</item>
+        <item name="android:textColorPrimaryInverse">@color/textIcons</item>
+        <item name="android:textColorSecondary">@color/secondaryText</item>
     </style>
 
     <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -22,7 +24,11 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:colorBackground">@android:color/background_light</item>
-        <item name="android:textColorPrimary">@color/text.icons</item>
+        <item name="android:textColorPrimary">@color/textIcons</item>
+    </style>
+
+    <style name="ButtonStyle" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:textColor">@color/textIcons</item>
     </style>
 
     <style name="DairyTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

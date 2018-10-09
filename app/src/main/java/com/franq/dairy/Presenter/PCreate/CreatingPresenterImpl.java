@@ -1,28 +1,16 @@
 package com.franq.dairy.Presenter.PCreate;
 
-import com.franq.dairy.Model.NotesModel;
-import com.franq.dairy.R;
-import com.franq.dairy.View.CreatingFragment;
-import com.franq.dairy.View.NoteFragment;
+import com.franq.dairy.Model.DataBase.NotesModel;
+import com.franq.dairy.Presenter.BasePresenter;
+import com.franq.dairy.View.Fragments.CreatingFragment;
 
-public class CreatingPresenterImpl implements CreatingPresenter {
+public class CreatingPresenterImpl extends BasePresenter<CreatingFragment> implements CreatingPresenter {
 
-    CreatingFragment fragment;
     NotesModel model;
 
     @Override
-    public void attachFragment(CreatingFragment fragment) {
-        this.fragment = fragment;
-    }
-
-    @Override
-    public void detachFragment() {
-        fragment = null;
-    }
-
-    @Override
     public void openDB() {
-        this.model = new NotesModel(fragment.getContext());
+        this.model = new NotesModel(view.getContext());
         model.init();
     }
 

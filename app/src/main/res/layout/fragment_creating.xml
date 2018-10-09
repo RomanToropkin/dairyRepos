@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.CreatingFragment">
-
-    <!-- TODO: Update blank fragment layout -->
+    tools:context=".View.Fragments.CreatingFragment">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
