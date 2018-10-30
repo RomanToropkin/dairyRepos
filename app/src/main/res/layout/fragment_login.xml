@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".View.Fragments.LoginFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:id="@+id/loginLayout"
@@ -15,31 +13,33 @@
 
         <EditText
             android:id="@+id/loginEditText"
-            android:layout_width="280dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="176dp"
+            android:layout_marginTop="148dp"
+            android:layout_marginEnd="8dp"
             android:ems="10"
+            android:gravity="center"
             android:hint="Логин"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.601"
+            app:layout_constraintHorizontal_bias="0.125"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/passEditText"
-            android:layout_width="280dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="44dp"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="8dp"
             android:ems="10"
+            android:gravity="center"
             android:hint="Пароль"
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.613"
+            app:layout_constraintHorizontal_bias="0.125"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/loginEditText" />
 
@@ -48,29 +48,40 @@
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="112dp"
+            android:layout_marginTop="36dp"
             android:layout_marginEnd="8dp"
             android:text="Войти"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.602"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/passEditText" />
 
         <Button
             android:id="@+id/login_registerButton"
-            android:layout_width="276dp"
+            android:layout_width="280dp"
             android:layout_height="47dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            android:text="Зарегестрироваться"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/loginButton" />
+
+        <ProgressBar
+            android:id="@+id/loginRefresh"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:text="Зарегестрироваться"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/loginEditText"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.576"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/loginButton"
-            app:layout_constraintVertical_bias="0.363" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.476" />
 
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>

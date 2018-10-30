@@ -9,4 +9,9 @@
     <color name="dividerColor">#bdbdbd</color>
     <color name="screen_back">#fff0d3</color>
     <color name="foreground_material_light">#dbdbdb</color>
+    <color name="colorHint">#7b7b7b</color>
+    <color name="colorHintRed">#ff7070</color>
+    <color name="colorButtonBorder">#ffffff</color>
+    <color name="colorButtonText">#ffffff</color>
+    <color name="colorTextViewBorder">#8e8e8e</color>
 </resources>

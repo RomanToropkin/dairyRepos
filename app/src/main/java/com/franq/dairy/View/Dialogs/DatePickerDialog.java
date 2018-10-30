@@ -11,18 +11,27 @@ import android.support.v4.app.DialogFragment;
 import android.widget.Button;
 import android.widget.DatePicker;
 
+/**
+ * Реализация собственного диалогово окна с выбором даты из календаря.
+ */
 @SuppressLint("ValidFragment")
 public class DatePickerDialog extends DialogFragment implements android.app.DatePickerDialog.OnDateSetListener {
 
+    /**Слушитель нажатия на дату в календаре */
     private onDatePickListener listener;
+    /**Диалоговое окно*/
     private Dialog picker;
+    /**Дата в строковом виде*/
     private String date;
 
+    /**Конструктор, в которой передаётся дата
+     * @param date дата в строковом виде*/
     @SuppressLint("ValidFragment")
     public DatePickerDialog(String date) {
         this.date = date;
     }
 
+    /**Вызывается при создании диалогового окна*/
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -35,6 +44,7 @@ public class DatePickerDialog extends DialogFragment implements android.app.Date
         return picker;
     }
 
+    /**Вызывается при запуске диалогового окна*/
     @Override
     public void onStart() {
         super.onStart();
@@ -43,12 +53,14 @@ public class DatePickerDialog extends DialogFragment implements android.app.Date
         nButton.setText("Готово");
     }
 
+    /**Вызывается при отвязки диалогвоого окна с активностью*/
     @Override
     public void onDetach() {
         super.onDetach();
         listener = null;
     }
 
+    /**Вызывается при связки диалогвоого окна с активностью*/
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -60,12 +72,18 @@ public class DatePickerDialog extends DialogFragment implements android.app.Date
         }
     }
 
+    /**Вызывается при выборе даты*/
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         listener.onDatePick(year, month+1, day);
     }
 
-    public interface onDatePickListener{
+    /**Слушатель календаря*/
+    public interface onDatePickListener {
+        /**Выбрали дату
+         * @param year числовое значение года
+         * @param month числовое значение месяца
+         * @param day числовое значение дня*/
         void onDatePick(int year, int month, int day);
     }
 

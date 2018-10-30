@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 import com.franq.dairy.R;
 
 
-
+/**
+ * @see CreatingFragment
+ */
 public class SettingsFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 

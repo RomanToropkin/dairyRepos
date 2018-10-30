@@ -24,7 +24,7 @@ android {
 }
 
 realm {
-    syncEnabled = true;
+    syncEnabled = true
 }
 
 dependencies {
@@ -41,4 +41,5 @@ dependencies {
     implementation 'io.realm:android-adapters:2.1.1'
     implementation 'com.squareup.retrofit2:retrofit:2.1.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+    api group: 'commons-codec', name: 'commons-codec', version: '1.11'
 }

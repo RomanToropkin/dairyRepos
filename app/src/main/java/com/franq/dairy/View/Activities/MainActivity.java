@@ -20,6 +20,7 @@ import com.franq.dairy.Presenter.PMain.MainPresenterImpl;
 import com.franq.dairy.R;
 import com.franq.dairy.View.Contracts.MainContractVIew;
 import com.franq.dairy.View.Dialogs.DatePickerDialog;
+import com.franq.dairy.View.Fragments.BlankNoteFragment;
 import com.franq.dairy.View.Fragments.CreatingFragment;
 import com.franq.dairy.View.Fragments.DairyNoteFragment;
 import com.franq.dairy.View.Fragments.LoginFragment;
@@ -31,30 +32,47 @@ import com.franq.dairy.View.Fragments.SyncInfoFragment;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/*
+ **Главная активность. Является связующим элементом между фрагментами. Взаимодействует с ними с помощью механизма обратного вызова.
+ **/
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, NoteFragment.OnListFragmentInteractionListener,
         SettingsFragment.OnFragmentInteractionListener, MainContractVIew, SyncInfoFragment.onSynchFragmentInteractionListener,
-        CreatingFragment.onCreatingFragmentInteractionListener, DatePickerDialog.onDatePickListener, DairyNoteFragment.onDaityNoteFragmentInteraction,
+        CreatingFragment.onCreatingFragmentInteractionListener, DatePickerDialog.onDatePickListener, DairyNoteFragment.onDairyNoteFragmentInteraction,
         LoginFragment.OnFragmentInteractionListener, RegisterFragment.onRegisterFragmentInteraction {
-
+    /**
+     * Тэг для откладки
+     */
     private static final String MAIN_ACTIVITY_TAG = "mainActicity";
+    /**Представление*/
     private MainPresenterImpl presenter;
+    /**Дата время*/
     private String date;
-    private boolean isCalculateEnable = true;
+    /**
+     * Оторжание календаря
+     */
+    private boolean isCalendarEnable = true;
+    /**Плавающая кнопка*/
     private FloatingActionButton fab;
+    /**
+     * Пустой фрагмент для "нулевых" записей
+     */
+    private BlankNoteFragment noteFragment;
 
+    /**Замена фрагмента логирования на фрагмент синхронизации*/
     @Override
     public void onLoginInteract() {
         getSupportFragmentManager().popBackStackImmediate();
         chooseSyncInfoFragment();
     }
 
+    /**Замена фрагмента синхронизации на фрагмент логирования*/
     @Override
     public void onLogoutInteract() {
         getSupportFragmentManager().popBackStackImmediate();
         chooseLoginFragment();
     }
-
+    /**Создание акттивность*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,11 +80,9 @@ public class MainActivity extends AppCompatActivity
 
         initComponents(null);
 
-        if (savedInstanceState == null){
-            startFragment();
-        }
     }
 
+    /**Обработка нажатия на кнопку "Назад"*/
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -76,7 +92,7 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
-
+    /**Инициализация меню в action bar*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -84,9 +100,10 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    /**Изменение отображения элементов меню в action bar*/
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (isCalculateEnable){
+        if (isCalendarEnable){
             menu.findItem(R.id.action_calendar).setVisible(true);
         } else {
             menu.findItem(R.id.action_calendar).setVisible(false);
@@ -94,14 +111,11 @@ public class MainActivity extends AppCompatActivity
         return super.onPrepareOptionsMenu(menu);
     }
 
+    /**Обработка нажатия на иконку в меню(иконка календаря)*/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_calendar) {
             DialogFragment datePicker = new DatePickerDialog(date);
             datePicker.show(getSupportFragmentManager(), "datePicker");
@@ -111,21 +125,23 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-
+    /**Отображение элементов (плавающая кнопка и календарь)*/
     @Override
     public void showMainView() {
-        isCalculateEnable = true;
+        isCalendarEnable = true;
         invalidateOptionsMenu();
         fab.setVisibility(View.VISIBLE);
     }
 
+    /**Сокрытие элементов (плавающая кнопка и календарь)*/
     @Override
     public void hideMainView() {
-        isCalculateEnable = false;
+        isCalendarEnable = false;
         invalidateOptionsMenu();
         fab.setVisibility(View.INVISIBLE);
     }
 
+    /**Замена текущего фрагмента на фрагмент Записи*/
     @Override
     public void chooseNoteFragment() {
         getSupportFragmentManager().beginTransaction()
@@ -134,6 +150,17 @@ public class MainActivity extends AppCompatActivity
                 .commit();
     }
 
+    /**
+     * Отображение стартового фрагмента (Фрагмент записи)
+     */
+    private void startFragment() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.content_main_layout, new NoteFragment())
+                .commit();
+    }
+
+    /**Замена текущего фрагмента на фрагмент выбранной записи
+     * @param item выбранная запись в списке*/
     @Override
     public void chooseDairyNoteFragment(Note item) {
         DairyNoteFragment fragment = new DairyNoteFragment();
@@ -144,6 +171,7 @@ public class MainActivity extends AppCompatActivity
                 .commit();
     }
 
+    /**Замена текущего фрагмента на фрагмент настройки*/
     @Override
     public void chooseSettingsFragment() {
         getSupportFragmentManager().beginTransaction()
@@ -152,6 +180,7 @@ public class MainActivity extends AppCompatActivity
                 .commit();
     }
 
+    /**Замена текущего фрагмента на фрагмент создания записи*/
     @Override
     public void chooseCreatingFragment() {
         getSupportFragmentManager().beginTransaction()
@@ -160,6 +189,7 @@ public class MainActivity extends AppCompatActivity
                 .commit();
     }
 
+    /**Замена текущего фрагмента на фрагмент логирования*/
     @Override
     public void chooseLoginFragment() {
         getSupportFragmentManager().beginTransaction()
@@ -168,6 +198,7 @@ public class MainActivity extends AppCompatActivity
                 .commit();
     }
 
+    /**Замена текущего фрагмента на фрагмент регистрации*/
     @Override
     public void chooseRegisterFragment() {
         getSupportFragmentManager().beginTransaction()
@@ -176,6 +207,77 @@ public class MainActivity extends AppCompatActivity
                 .commit();
     }
 
+    /**
+     * Удалить пустой фрагмент (отсутствия записей)
+     */
+    @Override
+    public void hideBlankFragment() {
+        getSupportFragmentManager().beginTransaction()
+                .remove(noteFragment)
+                .commit();
+    }
+
+    /**
+     * Изменение статуса пустого фрагмента
+     *
+     * @param flag true - показать фрагмент, false - скрыть фрагмент
+     */
+    @Override
+    public void onBlankFragmentStatusChange(boolean flag) {
+        if (flag)
+            showBlankFragment();
+        else
+            hideBlankFragment();
+    }
+
+    /**
+     * Отобразить пустой фрагмент (отсутствия записей)
+     */
+    @Override
+    public void showBlankFragment() {
+        if (!noteFragment.isAdded())
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.blankContainer, noteFragment)
+                    .commit();
+    }
+
+    /**
+     * Переход от фрагмента создания к фрагменту отображения
+     */
+    @Override
+    public void onDairyDeleteFragment() {
+        showMainView();
+        getSupportActionBar().setTitle("Мой дневник");
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.content_main_layout, new NoteFragment())
+                .commit();
+    }
+
+    /**
+     * Замена текущего фрагмента на фрагмент Записи
+     */
+    @Override
+    public void chooseSyncInfoFragment() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.content_main_layout, new SyncInfoFragment())
+                .addToBackStack("stack")
+                .commit();
+    }
+
+    /**
+     * Замена текущего фрагмента на фрагмент Записи
+     */
+    @Override
+    public void onCreatingNote() {
+        hideMainView();
+        getSupportActionBar().setTitle("Мой дневник");
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.content_main_layout, new NoteFragment())
+                .commit();
+    }
+
+    /**Инициализация компонентов
+     * @param view - null, так как не требуется "надувание" элементов*/
     @Override
     public void initComponents(View view) {
         presenter = new MainPresenterImpl();
@@ -201,24 +303,13 @@ public class MainActivity extends AppCompatActivity
         SimpleDateFormat format = new SimpleDateFormat("dd.M.yyyy");
         date = format.format(new Date());
 
+        noteFragment = new BlankNoteFragment();
+
         startFragment();
-    }
 
-    @Override
-    public void chooseSyncInfoFragment() {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.content_main_layout, new SyncInfoFragment())
-                .addToBackStack("stack")
-                .commit();
     }
-
-    @Override
-    public void onRegisterRefreshInteract() {
-        showMainView();
-        getSupportActionBar().setTitle("Мой дневник");
-        chooseNoteFragment();
-    }
-
+    /**Обработка нажатия на пункты меню в Navigation view (боковое выползающие меню)
+     * @param item нажатый элемент меню*/
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -237,7 +328,8 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
+    /**Обработка нажатия на запись в списке
+     * @param item нажатая запись*/
     @Override
     public void onNoteItemLick(Note item) {
         if (item.isValid()) {
@@ -245,80 +337,94 @@ public class MainActivity extends AppCompatActivity
             chooseDairyNoteFragment(item);
         }
     }
-
+    /**Обработка нажатия на плавающую кнопку
+     * @param view - элемент кнопки*/
     @Override
     public void onAddButtonClick(View view) {
         chooseCreatingFragment();
     }
 
-
+    /**
+     * Отображения ошибки во всплываюшим баре
+     *
+     * @param error - описание ошибки
+     */
     @Override
     public void showFailError(String error) {
-        Snackbar.make(findViewById(R.id.content_main_layout), error, Snackbar.LENGTH_LONG).show();
+        Snackbar snackbar = Snackbar.make(findViewById(R.id.content_main_layout), error, Snackbar.LENGTH_SHORT);
+        snackbar.getView().setBackgroundResource(R.color.colorAccent);
+        snackbar.show();
     }
 
-    private void startFragment() {
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.content_main_layout, new NoteFragment())
-                .commit();
-    }
-
+    /**
+     * Обработка нажатия на дату в календаре
+     */
     @Override
     public void onDatePick(int year, int month, int day) {
-        date = day+"."+month+"."+year;
-        presenter.onChangeDate(day, month, year);
+        date = day + "." + month + "." + year;
+        presenter.onChangeNoteFragmentData(day, month, year);
     }
 
+    /**
+     * Замена регистрационного фрагмента на фрагмент записи
+     */
+    @Override
+    public void onRegisterRefreshInteract() {
+        showMainView();
+        getSupportActionBar().setTitle("Мой дневник");
+        chooseNoteFragment();
+    }
+
+    /**Установка параметров action bar-a и изменение отобржания элементов
+     * @#param name заголовок в action bar*/
     @Override
     public void onSyncInteract(String name) {
         hideMainView();
         getSupportActionBar().setTitle(name);
     }
-
+    /**Установка параметров action bar-a и изменение отобржания элементов
+     * @#param name заголовок в action bar*/
     @Override
     public void onCreatingFragmentInteract(String name) {
         hideMainView();
         getSupportActionBar().setTitle(name);
     }
-
+    /**Установка параметров action bar-a и изменение отобржания элементов
+     * @#param name заголовок в action bar*/
     @Override
     public void onDairyFragmentInteract(String name) {
         hideMainView();
         getSupportActionBar().setTitle(name);
     }
-
-    @Override
-    public void onCreatingNote() {
-        hideMainView();
-        getSupportActionBar().setTitle("Мой дневник");
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.content_main_layout, new NoteFragment())
-                .commit();
-    }
-
+    /**Установка параметров action bar-a и изменение отобржания элементов
+     * @#param name заголовок в action bar*/
     @Override
     public void onSettingsFragmentInteract(String name) {
         hideMainView();
         getSupportActionBar().setTitle(name);
     }
-
+    /**Установка параметров action bar-a и изменение отобржания элементов
+     * @#param name заголовок в action bar*/
     @Override
     public void onFragmentInteract(String name) {
         hideMainView();
         getSupportActionBar().setTitle(name);
     }
-
+    /**Установка параметров action bar-a и изменение отобржания элементов
+     * @#param name заголовок в action bar*/
     @Override
     public void onChooseRegisterFragment() {
         chooseRegisterFragment();
     }
-
+    /**Установка параметров action bar-a и изменение отобржания элементов
+     * @#param name заголовок в action bar*/
     @Override
     public void onNoteFragmentInteract(String name) {
         getSupportActionBar().setTitle(name);
         showMainView();
     }
 
+    /**Вызывается при уничтожении активности*/
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -326,25 +432,13 @@ public class MainActivity extends AppCompatActivity
         presenter.onDetachView();
     }
 
+    /**Вызывается при остановке активности*/
     @Override
     protected void onStop() {
         super.onStop();
     }
-
-    @Override
-    public void onDairyDeleteFragment() {
-        showMainView();
-        getSupportActionBar().setTitle("Мой дневник");
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.content_main_layout, new NoteFragment())
-                .commit();
-    }
-
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-
-    }
-
+    /**Установка параметров action bar-a и изменение отобржания элементов
+     * @#param name заголовок в action bar*/
     @Override
     public void onRegisterFragmentInteract(String name) {
         hideMainView();

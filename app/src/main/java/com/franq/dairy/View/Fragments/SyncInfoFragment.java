@@ -15,11 +15,13 @@ import com.franq.dairy.Presenter.PSync.SyncPresenterImpl;
 import com.franq.dairy.R;
 import com.franq.dairy.View.Contracts.SyncContractView;
 
-
+/**
+ * @see CreatingFragment
+ */
 public class SyncInfoFragment extends Fragment implements SyncContractView {
 
     private onSynchFragmentInteractionListener mListener;
-    private TextView statusTextView, loginTextView, secStatusTextView;
+    private TextView loginTextView, secStatusTextView;
     private ImageView statusImage;
     private Button logoutButton;
     private SwipeRefreshLayout refreshLayout;
@@ -107,7 +109,6 @@ public class SyncInfoFragment extends Fragment implements SyncContractView {
     @Override
     public void initComponents(View view) {
 
-        statusTextView = view.findViewById(R.id.statusSyncTextInfo);
         secStatusTextView = view.findViewById(R.id.secStatusSyncTextView);
         loginTextView = view.findViewById(R.id.accountNameSynInfoTextView);
         statusImage = view.findViewById(R.id.syncStatusImage);

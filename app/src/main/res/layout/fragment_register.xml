@@ -14,44 +14,46 @@
 
         <EditText
             android:id="@+id/loginRegEditTExt"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="72dp"
             android:layout_marginEnd="8dp"
             android:ems="10"
             android:hint="Логин"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.503"
+            app:layout_constraintHorizontal_bias="0.062"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/regProgressBar" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/passRegEditText"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="8dp"
             android:ems="10"
             android:hint="Пароль"
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/loginRegEditTExt" />
 
         <EditText
             android:id="@+id/secondPassRegEditText"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="80dp"
+            android:layout_marginEnd="8dp"
             android:ems="10"
             android:hint="Повторите пароль"
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/passRegEditText" />
 
@@ -59,27 +61,62 @@
             android:id="@+id/registerButton"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:text="Зарегестрироваться"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/secondPassRegEditText" />
+            app:layout_constraintTop_toBottomOf="@+id/secondPassRegEditText"
+            app:layout_constraintVertical_bias="0.24" />
 
         <ProgressBar
-            android:id="@+id/regProgressBar"
+            android:id="@+id/registerRefresh"
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="68dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/loginRegEditTExt"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/loginHintTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/colorHintRed"
+            app:layout_constraintBottom_toTopOf="@+id/passRegEditText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/loginRegEditTExt"
+            app:layout_constraintVertical_bias="0.44" />
+
+        <TextView
+            android:id="@+id/passHintTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/colorHintRed"
+            app:layout_constraintBottom_toTopOf="@+id/secondPassRegEditText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.023"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/passRegEditText"
+            app:layout_constraintVertical_bias="0.55" />
+
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>

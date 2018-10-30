@@ -1,13 +1,15 @@
 package com.franq.dairy.View.Contracts;
 
-import android.support.annotation.Nullable;
-
 import com.franq.dairy.Model.DataBase.Note;
 
-import io.realm.OrderedRealmCollection;
+import io.realm.RealmList;
 
+/**
+ * Интерфейс, описывающий поведение отображения списка записей
+ */
 public interface NotesContractView extends BaseContractView {
 
     void onSwipeList();
-    void refreshList(@Nullable OrderedRealmCollection<Note> notes);
+
+    void refreshList(RealmList<Note> notes);
 }

@@ -1,5 +1,4 @@
-package com.franq.dairy;
-
+package com.franq.dairy.View.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,17 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.franq.dairy.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Пустой фрагмент, в котором отображается информация об отсутствии записей
  */
 public class BlankNoteFragment extends Fragment {
-
-
-    public BlankNoteFragment() {
-        // Required empty public constructor
-    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

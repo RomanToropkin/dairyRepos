@@ -14,6 +14,10 @@ import com.franq.dairy.Presenter.PDairy.DairyPresenterImpl;
 import com.franq.dairy.R;
 import com.franq.dairy.View.Contracts.DairyContractView;
 
+
+/**
+ * @see CreatingFragment
+ */
 public class DairyNoteFragment extends Fragment implements DairyContractView {
 
     private TextView textView;
@@ -26,7 +30,7 @@ public class DairyNoteFragment extends Fragment implements DairyContractView {
         this.note = note;
     }
 
-    private onDaityNoteFragmentInteraction mListener;
+    private onDairyNoteFragmentInteraction mListener;
 
     @Override
     public void onDestroyView() {
@@ -61,8 +65,8 @@ public class DairyNoteFragment extends Fragment implements DairyContractView {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof onDaityNoteFragmentInteraction) {
-            mListener = (onDaityNoteFragmentInteraction) context;
+        if (context instanceof onDairyNoteFragmentInteraction) {
+            mListener = (onDairyNoteFragmentInteraction) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement onSynchFragmentInteractionListener");
@@ -83,9 +87,10 @@ public class DairyNoteFragment extends Fragment implements DairyContractView {
         }
     }
 
-    public interface onDaityNoteFragmentInteraction {
+    public interface onDairyNoteFragmentInteraction {
 
         void onDairyFragmentInteract(String name);
+
         void onDairyDeleteFragment();
     }
 }

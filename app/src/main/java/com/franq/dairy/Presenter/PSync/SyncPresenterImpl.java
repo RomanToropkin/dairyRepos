@@ -10,31 +10,51 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Представитель, синхронизирующий пользователя
+ */
 public class SyncPresenterImpl extends BasePresenter<SyncInfoFragment> implements SyncPresenter {
-
+    /**Хранилище настроек*/
     private PreferencesData data;
 
+    /**Переопределение базового метода с инициализацией хранилища настроек*/
     @Override
     public void onAttachView(SyncInfoFragment view) {
         super.onAttachView(view);
         data = new PreferencesData(view.getContext());
     }
 
+    /**Вовращает логин из хранилища
+     * @return логин*/
     @Override
     public String getLogin() {
         return data.getLogin();
     }
 
+    /**Удаляет данные из хранилища. Пользователь вышел из системы*/
     @Override
     public void clearAuthorizationData() {
-        data.addLoginPass("", "");
+        data.clearData();
+        Server server = new Server();
+        server.clearSession(data.getCookie(), new Callback<Result>() {
+            @Override
+            public void onResponse(Call<Result> call, Response<Result> response) {
+            }
+
+            @Override
+            public void onFailure(Call<Result> call, Throwable t) {
+            }
+        });
     }
 
+    /**Отправление запроса на сервер с целью проверки синхронизации пользователя.
+     * Данные получаются из хранилища
+     **/
     @Override
     public void checkAuthorizatiton() {
         view.showLoading();
         Server server = new Server();
-        server.loginUser(data.getLogin(), data.getPass(), new Callback<Result>() {
+        server.syncUser(data.getCookie(), new Callback<Result>() {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
                 Result result = response.body();

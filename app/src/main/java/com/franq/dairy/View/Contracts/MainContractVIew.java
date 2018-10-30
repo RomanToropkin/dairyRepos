@@ -4,6 +4,9 @@ import android.view.View;
 
 import com.franq.dairy.Model.DataBase.Note;
 
+/**
+ * Интерфейс, описывающий поведение отображения главной активности
+ */
 public interface MainContractVIew extends BaseContractView {
 
     void onAddButtonClick(View view);
@@ -27,4 +30,8 @@ public interface MainContractVIew extends BaseContractView {
     void chooseRegisterFragment();
 
     void chooseSyncInfoFragment();
+
+    void showBlankFragment();
+
+    void hideBlankFragment();
 }

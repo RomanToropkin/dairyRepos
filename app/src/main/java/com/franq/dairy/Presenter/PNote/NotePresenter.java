@@ -4,14 +4,17 @@ import com.franq.dairy.Model.DataBase.Note;
 
 import java.util.List;
 
-import io.realm.RealmResults;
+import io.realm.RealmList;
 
+/**
+ * Интерфейс, описывающий представителя отображения записей
+ */
 public interface NotePresenter {
 
     void openDB();
     List<Note> getAllNotes();
-    void addNote();
-    RealmResults<Note> getItems();
+
+    RealmList<Note> getList();
     void closeDB();
 
 }

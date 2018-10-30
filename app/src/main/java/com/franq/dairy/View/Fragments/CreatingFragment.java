@@ -16,6 +16,12 @@ import com.franq.dairy.Presenter.PCreate.CreatingPresenterImpl;
 import com.franq.dairy.R;
 import com.franq.dairy.View.Contracts.CreatingContractView;
 
+/**
+ * Все фрагменты имеют схожий функционал. Они являются посредниками между элементами отображения и их событиями.
+ * Все они связываются с главной активностью.
+ * Все они реализуют механизм обратного вызова и передают методы главной активности
+ */
+
 public class CreatingFragment extends Fragment implements CreatingContractView {
 
     private onCreatingFragmentInteractionListener mListener;
@@ -98,13 +104,16 @@ public class CreatingFragment extends Fragment implements CreatingContractView {
                 mListener.onCreatingNote();
             }
         } else {
-            Snackbar.make(view, "Заполните все поля ввода!", Snackbar.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar.make(this.getView(), "Заполните все поля ввода!", Snackbar.LENGTH_SHORT);
+            snackbar.getView().setBackgroundResource(R.color.colorAccent);
+            snackbar.show();
         }
     }
 
     public interface onCreatingFragmentInteractionListener {
         // TODO: Update argument type and name
         void onCreatingFragmentInteract(String name);
+
         void onCreatingNote();
     }
 }

@@ -8,19 +8,40 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swiperefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/list"
-            android:name="com.franq.dairy.NoteFragment"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            tools:context=".View.Fragments.NoteFragment"
-            tools:listitem="@layout/fragment_note">
+            android:layout_height="match_parent">
 
-        </android.support.v7.widget.RecyclerView>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/list"
+                android:name="com.franq.dairy.NoteFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                tools:context=".View.Fragments.NoteFragment"
+                tools:listitem="@layout/fragment_note">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <FrameLayout
+                android:id="@+id/blankContainer"
+                android:layout_width="223dp"
+                android:layout_height="251dp"
+                android:layout_alignStart="@+id/list"
+                android:layout_alignEnd="@+id/list"
+                android:layout_alignBottom="@+id/list"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="65dp"
+                android:layout_marginTop="67dp"
+                android:layout_marginEnd="72dp"
+                android:layout_marginBottom="249dp">
+
+            </FrameLayout>
+        </RelativeLayout>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 </FrameLayout>
