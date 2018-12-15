@@ -3,13 +3,14 @@ package com.franq.dairy.View.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.franq.dairy.Model.DataBase.Note;
+import com.franq.dairy.Model.JsonModels.Note;
 import com.franq.dairy.Presenter.PDairy.DairyPresenterImpl;
 import com.franq.dairy.R;
 import com.franq.dairy.View.Contracts.DairyContractView;
@@ -24,6 +25,7 @@ public class DairyNoteFragment extends Fragment implements DairyContractView {
     private Button deleteButton;
     private DairyPresenterImpl presenter;
     private Note note;
+    private RecyclerView recyclerView;
 
     @Override
     public void setNote(Note note) {
@@ -35,30 +37,30 @@ public class DairyNoteFragment extends Fragment implements DairyContractView {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        presenter.closeDB();
         presenter.onDetachView();
     }
 
     @Override
     public void initComponents(View view) {
+        presenter = new DairyPresenterImpl( );
+        presenter.onAttachView( this );
+
         textView = view.findViewById(R.id.textDairyView);
         textView.setText(note.getDescription());
         deleteButton = view.findViewById(R.id.deleteDairyButton);
         deleteButton.setOnClickListener(this::deleteButtonClick);
-
-        presenter = new DairyPresenterImpl();
-        presenter.onAttachView(this);
-        presenter.openDB();
+        recyclerView = view.findViewById( R.id.rvDairyImages );
+        presenter.addAdapter( recyclerView, note.getId( ) );
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (mListener != null) {
-            mListener.onDairyFragmentInteract(note.getTitle());
-        }
         View view = inflater.inflate(R.layout.fragment_dairy_note, container, false);
         initComponents(view);
+        if ( mListener != null ) {
+            mListener.onDairyFragmentInteract( note.getTitle( ) );
+        }
         return view;
     }
 

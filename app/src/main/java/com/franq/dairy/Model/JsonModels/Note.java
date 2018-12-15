@@ -1,6 +1,12 @@
-package com.franq.dairy.Model.DataBase;
+package com.franq.dairy.Model.JsonModels;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
 /**
@@ -12,16 +18,25 @@ public class Note extends RealmObject {
      * Первичный ключ
      */
     @PrimaryKey
+    @SerializedName("id")
+    @Expose
     private String id;
     /**Столбец - заголовок */
+    @SerializedName("title")
+    @Expose
     private String title;
     /**Столбец - основной текстовый контент записи */
+    @SerializedName("description")
+    @Expose
     private String description;
     /**Столбец - дата в формате д:ММ:ГГГГ чч:мм  */
+    @SerializedName("date")
+    @Expose
     private String date;
-    /**Столбец - местоположение изображений */
-    private String imageUMI;
-
+    @Ignore
+    @SerializedName("imagesURI")
+    @Expose
+    private List <String> imageUMI;
     /**Возвращает ключ
      * @return id - первичный ключ */
     public String getId()  {
@@ -64,15 +79,11 @@ public class Note extends RealmObject {
         this.date = date;
     }
 
-    /**Возвращает местоположение изображений
-     * @return imageUMI - местоположение изображений */
-    public String getImageUMI() {
+    public List <String> getImageUMI() {
         return imageUMI;
     }
 
-    /**Устанавливает местоположение изображений
-     * @param imageUMI местопоожение */
-    public void setImageUMI(String imageUMI) {
+    public void setImageUMI(List <String> imageUMI) {
         this.imageUMI = imageUMI;
     }
 }

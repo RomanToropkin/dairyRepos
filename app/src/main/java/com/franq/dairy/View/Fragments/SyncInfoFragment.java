@@ -41,6 +41,13 @@ public class SyncInfoFragment extends Fragment implements SyncContractView {
 
 
     @Override
+    public void toLoginFragment() {
+        if ( mListener != null ) {
+            mListener.onLogoutInteract( );
+        }
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof onSynchFragmentInteractionListener) {
@@ -125,7 +132,6 @@ public class SyncInfoFragment extends Fragment implements SyncContractView {
     public interface onSynchFragmentInteractionListener {
         // TODO: Update argument type and name
         void onSyncInteract(String name);
-
         void onLogoutInteract();
     }
 }

@@ -15,9 +15,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.franq.dairy.Model.DataBase.Note;
+import com.franq.dairy.Model.JsonModels.Note;
 import com.franq.dairy.Presenter.PMain.MainPresenterImpl;
 import com.franq.dairy.R;
+import com.franq.dairy.Utility.NoteDate;
 import com.franq.dairy.View.Contracts.MainContractVIew;
 import com.franq.dairy.View.Dialogs.DatePickerDialog;
 import com.franq.dairy.View.Fragments.BlankNoteFragment;
@@ -28,9 +29,6 @@ import com.franq.dairy.View.Fragments.NoteFragment;
 import com.franq.dairy.View.Fragments.RegisterFragment;
 import com.franq.dairy.View.Fragments.SettingsFragment;
 import com.franq.dairy.View.Fragments.SyncInfoFragment;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /*
  **Главная активность. Является связующим элементом между фрагментами. Взаимодействует с ними с помощью механизма обратного вызова.
@@ -46,8 +44,6 @@ public class MainActivity extends AppCompatActivity
     private static final String MAIN_ACTIVITY_TAG = "mainActicity";
     /**Представление*/
     private MainPresenterImpl presenter;
-    /**Дата время*/
-    private String date;
     /**
      * Оторжание календаря
      */
@@ -117,7 +113,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.action_calendar) {
-            DialogFragment datePicker = new DatePickerDialog(date);
+            DialogFragment datePicker = new DatePickerDialog( NoteDate.getPickedDate( ) );
             datePicker.show(getSupportFragmentManager(), "datePicker");
             return true;
         }
@@ -146,7 +142,6 @@ public class MainActivity extends AppCompatActivity
     public void chooseNoteFragment() {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_main_layout, new NoteFragment())
-                .addToBackStack("stack")
                 .commit();
     }
 
@@ -176,7 +171,6 @@ public class MainActivity extends AppCompatActivity
     public void chooseSettingsFragment() {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_main_layout, new SettingsFragment())
-                .addToBackStack("stack")
                 .commit();
     }
 
@@ -250,6 +244,7 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setTitle("Мой дневник");
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_main_layout, new NoteFragment())
+                .addToBackStack( "stack" )
                 .commit();
     }
 
@@ -260,7 +255,6 @@ public class MainActivity extends AppCompatActivity
     public void chooseSyncInfoFragment() {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_main_layout, new SyncInfoFragment())
-                .addToBackStack("stack")
                 .commit();
     }
 
@@ -282,7 +276,6 @@ public class MainActivity extends AppCompatActivity
     public void initComponents(View view) {
         presenter = new MainPresenterImpl();
         presenter.onAttachView(this);
-        presenter.openDB();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -300,14 +293,11 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        SimpleDateFormat format = new SimpleDateFormat("dd.M.yyyy");
-        date = format.format(new Date());
-
         noteFragment = new BlankNoteFragment();
-
         startFragment();
 
     }
+
     /**Обработка нажатия на пункты меню в Navigation view (боковое выползающие меню)
      * @param item нажатый элемент меню*/
     @SuppressWarnings("StatementWithEmptyBody")
@@ -361,7 +351,6 @@ public class MainActivity extends AppCompatActivity
      */
     @Override
     public void onDatePick(int year, int month, int day) {
-        date = day + "." + month + "." + year;
         presenter.onChangeNoteFragmentData(day, month, year);
     }
 
@@ -428,7 +417,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        presenter.closeDB();
         presenter.onDetachView();
     }
 

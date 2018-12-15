@@ -2,7 +2,7 @@ package com.franq.dairy.View.Contracts;
 
 import android.view.View;
 
-import com.franq.dairy.Model.DataBase.Note;
+import com.franq.dairy.Model.JsonModels.Note;
 
 /**
  * Интерфейс, описывающий поведение отображения выбранной записи

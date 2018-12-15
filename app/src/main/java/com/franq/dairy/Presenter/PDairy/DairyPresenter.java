@@ -1,13 +1,15 @@
 package com.franq.dairy.Presenter.PDairy;
 
-import com.franq.dairy.Model.DataBase.Note;
+import android.support.v7.widget.RecyclerView;
+
+import com.franq.dairy.Model.JsonModels.Note;
 
 /**
  * Интерфейс, описывающий представителя отображения записи
  */
 public interface DairyPresenter {
 
-    void openDB();
-    void closeDB();
     void deleteNote(Note note);
+
+    void addAdapter(RecyclerView recyclerView, String noteId);
 }

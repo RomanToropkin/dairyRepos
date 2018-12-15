@@ -1,4 +1,4 @@
-package com.franq.dairy.Model.Server.JsonModels;
+package com.franq.dairy.Model.JsonModels;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

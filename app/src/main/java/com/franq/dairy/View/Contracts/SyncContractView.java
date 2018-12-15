@@ -17,4 +17,6 @@ public interface SyncContractView extends BaseContractView {
 
     void hideLoading();
 
+    void toLoginFragment();
+
 }

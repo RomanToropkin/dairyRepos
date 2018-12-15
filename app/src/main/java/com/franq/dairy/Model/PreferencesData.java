@@ -1,4 +1,4 @@
-package com.franq.dairy.Utility;
+package com.franq.dairy.Model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -20,11 +20,25 @@ public class PreferencesData {
     private static final String PREFERENCES_UID = "uid";
     /**Объект, взаимодействуюший в хранилищем*/
     private SharedPreferences sharedPreferences;
+    private static volatile PreferencesData instance;
 
     /**Конструктор - инициализвция объекта хранилища*/
-    public PreferencesData(Context context) {
+    private PreferencesData(Context context) {
         sharedPreferences = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
 
+    }
+
+    public static PreferencesData getInstance(Context context) {
+        PreferencesData localInstance = instance;
+        if ( localInstance == null ) {
+            synchronized (PreferencesData.class) {
+                localInstance = instance;
+                if ( localInstance == null ) {
+                    instance = localInstance = new PreferencesData( context );
+                }
+            }
+        }
+        return localInstance;
     }
 
     /**Добавление логина в хранилище

@@ -7,7 +7,9 @@ import android.view.View;
  */
 public interface CreatingContractView extends BaseContractView {
 
-    void buttonClick(View view);
+    void addNoteButtonClick(View view);
+
+    void sendImagesButtonClick(View view);
 
     boolean checkTitle(String title);
 

@@ -5,11 +5,8 @@ package com.franq.dairy.Presenter.PMain;
  */
 public interface MainPresenter {
 
-    void openDB();
-
     void onChangeNoteFragmentData(int day, int month, int year);
 
-    void closeDB();
 
     boolean checkInternetConnection();
 
