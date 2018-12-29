@@ -26,6 +26,7 @@ public abstract class BasePresenter<V> {
         view = null;
         if ( disposables != null ) {
             disposables.dispose( );
+            disposables.clear();
         }
     }
 

@@ -78,7 +78,7 @@ public class NoteFragment extends Fragment implements NotesContractView {
     @Override
     public void onSwipeList() {
         Log.d(NOTE_FRAGMET_VIEW_TAG, "isRefreshing");
-        swipeRefreshLayout.setRefreshing(false);
+        presenter.getSynchronizeNotes();
     }
 
 
@@ -96,11 +96,15 @@ public class NoteFragment extends Fragment implements NotesContractView {
 
     @Override
     public void refreshList(List <Note> data) {
-        newAdapter.updateNoteList( data );
-        if ( data.isEmpty( ) ) {
+        if (data != null) {
+            newAdapter.updateNoteList( data );
+            if ( data.isEmpty( ) ) {
+                changeStatus( true );
+            } else
+                changeStatus( false );
+        } else {
             changeStatus( true );
-        } else
-            changeStatus( false );
+        }
     }
 
     @Override

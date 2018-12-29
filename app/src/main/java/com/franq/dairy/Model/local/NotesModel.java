@@ -1,10 +1,9 @@
-package com.franq.dairy.Model.DataBase;
+package com.franq.dairy.Model.local;
 
 import android.content.Context;
 
 import com.franq.dairy.Model.JsonModels.ImageModel;
 import com.franq.dairy.Model.JsonModels.Note;
-import com.franq.dairy.Model.Server.Server;
 
 import java.util.List;
 import java.util.UUID;
@@ -25,7 +24,9 @@ public class NotesModel {
 
     private NotesModel(Context context) {
         Realm.init( context );
+        this.context = context;
     }
+    private Context context;
 
     public static NotesModel getInstance(Context context) {
         NotesModel localInstance = instance;
@@ -43,15 +44,16 @@ public class NotesModel {
     /**Добавляет новую запись в базу данных (БД)
      * @param title заголовок
      * @param description текстовый контент*/
-    public Note addNote(String id, String date, String title, String description, List <String> imagesURI) {
+    public Note addNote(String login, String id, String date, String title, String description, List <String> imagesURI) {
         try (Realm realm = Realm.getDefaultInstance( )) {
             realm.beginTransaction( );
             Note note = realm.createObject( Note.class, id );
             note.setTitle( title );
             note.setDescription( description );
             note.setDate( date );
+            note.setLogin( login );
             realm.commitTransaction( );
-            addImages( imagesURI, id );
+            if (imagesURI != null) {addImages( imagesURI, id );}
             return realm.copyFromRealm( note );
         }
     }
@@ -70,25 +72,32 @@ public class NotesModel {
     /**
      * Добавляет запись без изображения
      */
-    public Note addNote(String id, String date, String title, String description) {
-        return addNote( id, date, title, description, null );
+    public Note addNote(String login, String id, String date, String title, String description) {
+        return addNote( login, id, date, title, description, null );
     }
 
-    public List <Note> rgetNotesByDate(String date) {
+    /**
+     *
+     * @param date
+     * @return
+     */
+    public List <Note> rgetNotesByDate(String login, String date) {
         try (Realm realm = Realm.getDefaultInstance( )) {
             return realm.copyFromRealm(
                     realm.where( Note.class )
+                            .equalTo( "login", login)
                             .beginsWith( "date", date )
                             .findAll() );
         }
     }
 
 
-    public Flowable <List <Note>> getNotesByDate(String date) {
+    public Flowable <List <Note>> getNotesByDate(String login, String date) {
         Realm realm = Realm.getDefaultInstance( );
         Flowable <List <Note>> flowable;
         flowable = realm
                 .where( Note.class )
+                .equalTo( "login", login)
                 .beginsWith( "date", date )
                 .findAll( )
                 .asFlowable( )
@@ -98,7 +107,14 @@ public class NotesModel {
         return flowable;
     }
 
-    public void updateInfo(List <Note> notes) {
+    public void updateInfo(String login, List <Note> notes) {
+        try (Realm realm = Realm.getDefaultInstance()){
+            for (Note note : notes){
+                realm.beginTransaction();
+                note.setLogin( login );
+                realm.commitTransaction();
+            }
+        }
         try (Realm realm = Realm.getDefaultInstance( )) {
             realm.beginTransaction( );
             realm.insertOrUpdate( realm.copyToRealm( notes ) );
@@ -134,7 +150,7 @@ public class NotesModel {
                 realm.beginTransaction( );
                 ImageModel model = realm.createObject( ImageModel.class, UUID.randomUUID( ).toString( ) );
                 model.setNoteId( noteId );
-                model.setImageURI( Server.baseURL + uri );
+                model.setImageURI( PreferencesData.getInstance(context  ).getIp() + uri );
                 realm.insertOrUpdate( model );
                 realm.commitTransaction( );
             }
@@ -154,5 +170,30 @@ public class NotesModel {
                 .map( realm::copyFromRealm );
         return flowable;
     }
+
+//    public void syncGuestNotes(String login){
+//        RealmResults<Note> guestNotes = getGuestNotes( login );
+//        addNotesInUser( login, guestNotes );
+//
+//    }
+//
+//    private RealmResults<Note> getGuestNotes(String login){
+//        try (Realm realm = Realm.getDefaultInstance()){
+//            return realm
+//                    .where( Note.class )
+//                    .equalTo( "login", PreferencesData.DEFAULT_LOGIN )
+//                    .findAll();
+//        }
+//    }
+//
+//    private void addNotesInUser(String login, RealmResults<Note> list){
+//        try (Realm realm = Realm.getDefaultInstance()){
+//            for (Note note : list){
+//                realm.beginTransaction();
+//                note.setLogin( login );
+//                realm.commitTransaction();
+//            }
+//        }
+//    }
 
 }

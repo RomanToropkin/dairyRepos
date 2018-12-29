@@ -3,8 +3,8 @@ package com.franq.dairy.Presenter.PSync;
 import android.util.Log;
 
 import com.franq.dairy.Model.JsonModels.Result;
-import com.franq.dairy.Model.PreferencesData;
-import com.franq.dairy.Model.Server.Server;
+import com.franq.dairy.Model.local.PreferencesData;
+import com.franq.dairy.Model.remote.Server;
 import com.franq.dairy.Presenter.BasePresenter;
 import com.franq.dairy.View.Fragments.SyncInfoFragment;
 
@@ -60,7 +60,8 @@ public class SyncPresenterImpl extends BasePresenter<SyncInfoFragment> implement
                             if ( result.getResult( ).equals( "Ok" ) ) {
                                 view.changeStatus( true );
                             } else {
-                                view.toLoginFragment( );
+                                data.addLoginPass( PreferencesData.DEFAULT_LOGIN, "" );
+                                view.toLoginFragment();
                             }
                         } else {
                             Log.d( Server.TAG, "Result : is null" );
@@ -81,46 +82,5 @@ public class SyncPresenterImpl extends BasePresenter<SyncInfoFragment> implement
                         view.hideLoading( );
                     }
                 } ) );
-//        server.syncUser(data.getCookie(), new Callback<Result>() {
-//            @Override
-//            public void onResponse(Call<Result> call, Response<Result> response) {
-//                Log.d(Server.TAG, response.raw().toString());
-//                Result result = response.body();
-//                if (result.getResult().equals("Ok")) {
-//                    view.changeStatus(true);
-//                    view.hideLoading();
-//                } else {
-//                    server.loginUser(data.getLogin(), data.getPass(), new Callback<Result>() {
-//                        @Override
-//                        public void onResponse(Call<Result> call, Response<Result> response) {
-//                            Log.d(Server.TAG, response.toString());
-//                            Result result = response.body();
-//                            if (result.getResult().equals("Ok")){
-//                                String c1 = response.headers().get("Set-Cookie");
-//                                data.addCookie(c1);
-//                                view.changeStatus(true);
-//                                view.hideLoading();
-//                            } else {
-//                                view.changeStatus(false);
-//                                view.hideLoading();
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onFailure(Call<Result> call, Throwable t) {
-//                            Log.d(Server.TAG, t.getMessage());
-//                            view.changeStatus(false);
-//                            view.hideLoading();
-//                        }
-//                    });
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Result> call, Throwable t) {
-//                view.changeStatus(false);
-//                view.hideLoading();
-//            }
-//        });
     }
 }

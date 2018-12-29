@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Сгенерированный java класс из Json для обработки ответов от сервера.
  *
- * @see com.franq.dairy.Model.Server.APIService
+ * @see com.franq.dairy.Model.remote.APIService
  * Формат json :
  * {
  * "result" : "response"

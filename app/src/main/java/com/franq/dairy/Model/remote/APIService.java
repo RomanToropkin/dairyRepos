@@ -1,4 +1,4 @@
-package com.franq.dairy.Model.Server;
+package com.franq.dairy.Model.remote;
 
 import com.franq.dairy.Model.JsonModels.MDeleteNote;
 import com.franq.dairy.Model.JsonModels.MReq;

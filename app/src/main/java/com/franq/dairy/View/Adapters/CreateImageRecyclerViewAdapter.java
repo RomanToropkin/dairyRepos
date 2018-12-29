@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.franq.dairy.Model.Server.Server;
+import com.franq.dairy.Model.local.PreferencesData;
 import com.franq.dairy.R;
 import com.squareup.picasso.Picasso;
 
@@ -33,7 +33,7 @@ public class CreateImageRecyclerViewAdapter extends RecyclerView.Adapter <Create
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String stringURI = uri.get( position );
-        if ( stringURI.contains( Server.baseURL ) ) {
+        if ( stringURI.contains( PreferencesData.baseURL ) ) {
             Picasso.get( )
                     .load( stringURI )
                     .resize( 200, 200 )

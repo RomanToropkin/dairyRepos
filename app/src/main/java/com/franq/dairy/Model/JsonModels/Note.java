@@ -43,6 +43,16 @@ public class Note extends RealmObject {
         return id;
     }
 
+    private String login;
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
     /**Возвращает заголовок
      * @return title - заголовок */
     public String getTitle() {

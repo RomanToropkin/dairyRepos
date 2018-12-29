@@ -3,8 +3,8 @@ package com.franq.dairy.Presenter.PRegister;
 import android.util.Log;
 
 import com.franq.dairy.Model.JsonModels.Result;
-import com.franq.dairy.Model.PreferencesData;
-import com.franq.dairy.Model.Server.Server;
+import com.franq.dairy.Model.local.PreferencesData;
+import com.franq.dairy.Model.remote.Server;
 import com.franq.dairy.Presenter.BasePresenter;
 import com.franq.dairy.View.Fragments.RegisterFragment;
 

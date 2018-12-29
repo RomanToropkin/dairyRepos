@@ -3,8 +3,8 @@ package com.franq.dairy.Presenter.PMain;
 import android.content.Context;
 import android.net.ConnectivityManager;
 
-import com.franq.dairy.Model.DataBase.NotesModel;
-import com.franq.dairy.Model.PreferencesData;
+import com.franq.dairy.Model.local.NotesModel;
+import com.franq.dairy.Model.local.PreferencesData;
 import com.franq.dairy.Presenter.BasePresenter;
 import com.franq.dairy.Utility.NoteDate;
 import com.franq.dairy.View.Activities.MainActivity;
@@ -27,29 +27,9 @@ public class MainPresenterImpl extends BasePresenter<MainActivity> implements Ma
      * @param year год*/
     @Override
     public void onChangeNoteFragmentData(int day, int month, int year) {
-        //NoteFragment fragment = (NoteFragment) view.getSupportFragmentManager().findFragmentById(R.id.content_main_layout);
         String date = day + "." + month + "." + year;
         NoteDate.setPickedDate( date );
         view.chooseNoteFragment( );
-//        disposables.add( model.getNotesByDate( date )
-//                .observeOn( AndroidSchedulers.mainThread() )
-//                .subscribeWith( new DisposableSubscriber <List <Note>>( ) {
-//                    @Override
-//                    public void onNext(List <Note> notes) {
-//                        Log.d(TAG, "New data : "+ Arrays.toString( notes.toArray()));
-//                        fragment.refreshList( notes );
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable t) {
-//                        Log.d(TAG, "Error : "+t.getMessage());
-//                    }
-//
-//                    @Override
-//                    public void onComplete() {
-//
-//                    }
-//                } ));
     }
 
     @Override

@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.franq.dairy.Model.Server.Server;
+import com.franq.dairy.Model.local.PreferencesData;
 import com.franq.dairy.R;
 import com.franq.dairy.View.Contracts.SettingsContractView;
 
@@ -55,10 +55,11 @@ public class SettingsFragment extends Fragment implements SettingsContractView {
 
     @Override
     public void onButtonClick(View view) {
-        String url = "http://" + ipTextEdit.getText( ).toString( ) + ":8080/";
-        Server.baseURL = url;
-        Log.d( "IP", "IP стал : " + Server.baseURL );
-        Snackbar snackbar = Snackbar.make( view, "Адресс успешно изменен на : " + Server.baseURL, Snackbar.LENGTH_SHORT );
+        String baseURL = "http://" + ipTextEdit.getText( ).toString( ) + ":8080/";
+        PreferencesData.getInstance( getContext() )
+                .addIp( baseURL );
+        Log.d( "IP", "IP стал : " + baseURL );
+        Snackbar snackbar = Snackbar.make( view, "Адресс успешно изменен на : " + baseURL, Snackbar.LENGTH_SHORT );
         snackbar.getView( ).setBackgroundResource( R.color.colorAccent );
         snackbar.show( );
     }

@@ -3,9 +3,10 @@ package com.franq.dairy.Presenter.PCreate;
 import android.annotation.SuppressLint;
 import android.util.Log;
 
-import com.franq.dairy.Model.DataBase.NotesModel;
+import com.franq.dairy.Model.local.NotesModel;
 import com.franq.dairy.Model.JsonModels.Note;
-import com.franq.dairy.Model.Server.Server;
+import com.franq.dairy.Model.local.PreferencesData;
+import com.franq.dairy.Model.remote.Server;
 import com.franq.dairy.Presenter.BasePresenter;
 import com.franq.dairy.Utility.NoteDate;
 import com.franq.dairy.View.Fragments.CreatingFragment;
@@ -51,7 +52,10 @@ public class CreatingPresenterImpl extends BasePresenter <CreatingFragment> impl
     public void createNote(String title, String description, ArrayList <String> imagesUri) {
         String date = NoteDate.getFullDate( );
         String UID = UUID.randomUUID( ).toString( );
-        Note note = model.addNote( UID, date, title, description, imagesUri );
+        String login = PreferencesData
+                .getInstance( view.getContext() )
+                .getLogin();
+        Note note = model.addNote( login,UID, date, title, description, imagesUri );
         Server server = Server.getInstance( view.getContext( ) );
         server.addNote( note )
                 .subscribeOn( Schedulers.io( ) )

@@ -110,9 +110,10 @@ public class CreatingFragment extends Fragment implements CreatingContractView {
 
     @Override
     public void addNoteButtonClick(View view) {
-        if (tittleEdit.isFocused() | textEdit.isFocused()) {
-            InputMethodManager imm = (InputMethodManager) this.getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+        Context focus = getContext();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) focus.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
         String title = tittleEdit.getText().toString();
         String description = textEdit.getText().toString();

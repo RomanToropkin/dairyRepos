@@ -3,10 +3,11 @@ package com.franq.dairy.Presenter.PNote;
 import android.annotation.SuppressLint;
 import android.util.Log;
 
-import com.franq.dairy.Model.DataBase.NotesModel;
+import com.franq.dairy.Model.local.NotesModel;
 import com.franq.dairy.Model.JsonModels.MReq;
 import com.franq.dairy.Model.JsonModels.Note;
-import com.franq.dairy.Model.Server.Server;
+import com.franq.dairy.Model.local.PreferencesData;
+import com.franq.dairy.Model.remote.Server;
 import com.franq.dairy.Presenter.BasePresenter;
 import com.franq.dairy.Utility.NoteDate;
 import com.franq.dairy.View.Fragments.NoteFragment;
@@ -27,8 +28,11 @@ public class NotePresenterImpl extends BasePresenter<NoteFragment> implements No
     public void getSynchronizeNotes() {
         view.showLoading( );
         String date = NoteDate.getPickedDate( );
+        String login = PreferencesData
+                .getInstance( view.getContext() )
+                .getLogin();
         disposables.add(
-                model.getNotesByDate( date )
+                model.getNotesByDate( login, date )
                         .observeOn( AndroidSchedulers.mainThread( ) )
                         .subscribeWith( new DisposableSubscriber <List <Note>>( ) {
                             @SuppressLint("CheckResult")
@@ -44,14 +48,18 @@ public class NotePresenterImpl extends BasePresenter<NoteFragment> implements No
                                         .observeOn( AndroidSchedulers.mainThread( ) )
                                         .map( Response::body )
                                         .subscribe( result -> {
-                                            model.updateInfo( result );
+                                            if (result.size() != 0) {model.updateInfo(login, result );}
                                         }, error -> {
                                             Log.d( TAG, "Error :" + error.getMessage( ) );
-                                            view.refreshList( model.rgetNotesByDate( date ) );
-                                            view.hideLoading( );
+                                            if (view != null) {
+                                                view.refreshList( model.rgetNotesByDate( login, date ) );
+                                                view.hideLoading( );
+                                            }
                                         }, () -> {
-                                            view.refreshList( model.rgetNotesByDate( date ) );
-                                            view.hideLoading( );
+                                            if (view != null) {
+                                                view.refreshList( model.rgetNotesByDate( login, date ) );
+                                                view.hideLoading( );
+                                            }
                                         } );
                             }
 
@@ -73,33 +81,9 @@ public class NotePresenterImpl extends BasePresenter<NoteFragment> implements No
     private NotesModel model;
 
     @Override
-    public void onDetachView() {
-        super.onDetachView( );
-    }
-
-    @Override
     public void onAttachView(NoteFragment view) {
         super.onAttachView( view );
         model = NotesModel.getInstance( view.getContext( ) );
-    }
-
-    @SuppressLint("CheckResult")
-    public void doSynchronizeNotes() {
-        String date = NoteDate.getPickedDate( );
-        List <Note> noteList = model.rgetNotesByDate( date );
-        MReq req = new MReq( );
-        req.setDate( date );
-        req.setNotes( noteList );
-        Server.getInstance( view.getContext( ) )
-                .getSyncNotes( req )
-                .subscribeOn( Schedulers.io( ) )
-                .observeOn( AndroidSchedulers.mainThread( ) )
-                .map( Response::body )
-                .subscribe( result -> {
-                    model.updateInfo( result );
-                }, error -> {
-                    Log.d( TAG, "Error :" + error.getMessage( ) );
-                } );
     }
 
 }

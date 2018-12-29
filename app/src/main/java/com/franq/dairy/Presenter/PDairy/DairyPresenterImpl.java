@@ -5,13 +5,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import com.franq.dairy.Model.DataBase.NotesModel;
+import com.franq.dairy.Model.local.NotesModel;
 import com.franq.dairy.Model.JsonModels.ImageModel;
 import com.franq.dairy.Model.JsonModels.MDeleteNote;
 import com.franq.dairy.Model.JsonModels.Note;
-import com.franq.dairy.Model.Server.Server;
+import com.franq.dairy.Model.remote.Server;
 import com.franq.dairy.Presenter.BasePresenter;
-import com.franq.dairy.View.Adapters.CreateImageRecyclerViewAdapter;
+import com.franq.dairy.View.Adapters.ImageRecyclerViewAdapter;
+import com.franq.dairy.View.Dialogs.ImageDialog;
 import com.franq.dairy.View.Fragments.DairyNoteFragment;
 
 import java.util.ArrayList;
@@ -46,15 +47,17 @@ public class DairyPresenterImpl extends BasePresenter<DairyNoteFragment> impleme
     public void deleteNote(Note note) {
         String id = note.getId( );
         MDeleteNote mDeleteNote = new MDeleteNote( );
-        mDeleteNote.setId( id );
+        mDeleteNote.setId(id);
+        model.deleteNote(note);
         Server server = Server.getInstance( view.getContext( ) );
         server.deleteNote( mDeleteNote )
                 .subscribeOn( Schedulers.io( ) )
                 .observeOn( AndroidSchedulers.mainThread( ) )
                 .map( Response::body )
-                .subscribe( result -> Log.d( TAG, "Result : " + result.getResult( ) ),
-                        error -> Log.d( TAG, "Error : " + error.getMessage( ) ) );
-        model.deleteNote(note);
+                .subscribe(
+                        result -> Log.d( TAG, "Result : " + result.getResult( ) ),
+                        error -> Log.d( TAG, "Error : " + error.getMessage( ) ),
+                        () -> view.refreshFragment());
 //        server.downloadImages( id )
 //                .subscribeOn( Schedulers.io() )
 //                .observeOn( AndroidSchedulers.mainThread() )
@@ -79,7 +82,11 @@ public class DairyPresenterImpl extends BasePresenter<DairyNoteFragment> impleme
                     for (ImageModel model : result) {
                         imagesURI.add( model.getImageURI( ) );
                     }
-                    CreateImageRecyclerViewAdapter adapter = new CreateImageRecyclerViewAdapter( imagesURI );
+                    ImageRecyclerViewAdapter adapter = new ImageRecyclerViewAdapter( imagesURI, uri ->{
+                        ImageDialog dialog = new ImageDialog();
+                        dialog.setUri(uri );
+                        dialog.show( view.getFragmentManager(), "ImageDialog" );
+                    } );
                     recyclerView.setLayoutManager( new LinearLayoutManager( view.getContext( ) ) );
                     recyclerView.setAdapter( adapter );
                 }, error -> Log.d( TAG, "Error : " + error.getMessage( ) ) );

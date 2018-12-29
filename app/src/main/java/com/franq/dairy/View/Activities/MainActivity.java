@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity
     private boolean isCalendarEnable = true;
     /**Плавающая кнопка*/
     private FloatingActionButton fab;
+
+    private String currentFragment;
     /**
      * Пустой фрагмент для "нулевых" записей
      */
@@ -140,6 +142,7 @@ public class MainActivity extends AppCompatActivity
     /**Замена текущего фрагмента на фрагмент Записи*/
     @Override
     public void chooseNoteFragment() {
+        currentFragment = "NoteFragment";
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_main_layout, new NoteFragment())
                 .commit();
@@ -158,6 +161,7 @@ public class MainActivity extends AppCompatActivity
      * @param item выбранная запись в списке*/
     @Override
     public void chooseDairyNoteFragment(Note item) {
+        currentFragment = "DairyFragment";
         DairyNoteFragment fragment = new DairyNoteFragment();
         fragment.setNote(item);
         getSupportFragmentManager().beginTransaction()
@@ -169,6 +173,7 @@ public class MainActivity extends AppCompatActivity
     /**Замена текущего фрагмента на фрагмент настройки*/
     @Override
     public void chooseSettingsFragment() {
+        currentFragment = "SettingsFragment";
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_main_layout, new SettingsFragment())
                 .commit();
@@ -177,6 +182,7 @@ public class MainActivity extends AppCompatActivity
     /**Замена текущего фрагмента на фрагмент создания записи*/
     @Override
     public void chooseCreatingFragment() {
+        currentFragment = "CreateFragment";
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_main_layout, new CreatingFragment())
                 .addToBackStack("stack")
@@ -186,18 +192,20 @@ public class MainActivity extends AppCompatActivity
     /**Замена текущего фрагмента на фрагмент логирования*/
     @Override
     public void chooseLoginFragment() {
+        currentFragment = "LoginFragment";
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_main_layout, new LoginFragment())
-                .addToBackStack("stack")
+                //.addToBackStack("stack")
                 .commit();
     }
 
     /**Замена текущего фрагмента на фрагмент регистрации*/
     @Override
     public void chooseRegisterFragment() {
+        currentFragment = "RegisterFragment";
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_main_layout, new RegisterFragment())
-                .addToBackStack("stack")
+                //.addToBackStack("stack")
                 .commit();
     }
 
@@ -206,9 +214,11 @@ public class MainActivity extends AppCompatActivity
      */
     @Override
     public void hideBlankFragment() {
-        getSupportFragmentManager().beginTransaction()
-                .remove(noteFragment)
-                .commit();
+        if (noteFragment.isAdded()) {
+            getSupportFragmentManager( ).beginTransaction( )
+                    .remove( noteFragment )
+                    .commit( );
+        }
     }
 
     /**
@@ -240,6 +250,7 @@ public class MainActivity extends AppCompatActivity
      */
     @Override
     public void onDairyDeleteFragment() {
+        currentFragment = "DeleteFragment";
         showMainView();
         getSupportActionBar().setTitle("Мой дневник");
         getSupportFragmentManager().beginTransaction()
@@ -253,6 +264,7 @@ public class MainActivity extends AppCompatActivity
      */
     @Override
     public void chooseSyncInfoFragment() {
+        currentFragment = "SyncFragment";
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_main_layout, new SyncInfoFragment())
                 .commit();
@@ -263,6 +275,7 @@ public class MainActivity extends AppCompatActivity
      */
     @Override
     public void onCreatingNote() {
+        currentFragment = "NoteFragment";
         hideMainView();
         getSupportActionBar().setTitle("Мой дневник");
         getSupportFragmentManager().beginTransaction()
@@ -293,6 +306,8 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        currentFragment = "NoteFragment";
+
         noteFragment = new BlankNoteFragment();
         startFragment();
 
@@ -307,11 +322,13 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_notes) {
-            chooseNoteFragment();
+            if (!currentFragment.equals( "NoteFragment" )) chooseNoteFragment();
         } else if (id == R.id.nav_settings) {
-            chooseSettingsFragment();
+            if (!currentFragment.equals( "SettingsFragment" )) chooseSettingsFragment();
         } else if (id == R.id.nav_syn) {
-            presenter.checkAuthorization();
+            if (!currentFragment.equals( "SyncFragment" )
+                    && !currentFragment.equals( "LoginFragment" )
+                    && !currentFragment.equals( "RegisterFragment" )) presenter.checkAuthorization();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

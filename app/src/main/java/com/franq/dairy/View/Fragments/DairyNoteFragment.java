@@ -71,7 +71,7 @@ public class DairyNoteFragment extends Fragment implements DairyContractView {
             mListener = (onDairyNoteFragmentInteraction) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement onSynchFragmentInteractionListener");
+                    + " must implement onDairyNoteFragmentInteractionListener");
         }
     }
 
@@ -84,9 +84,10 @@ public class DairyNoteFragment extends Fragment implements DairyContractView {
     @Override
     public void deleteButtonClick(View view) {
         presenter.deleteNote(note);
-        if (mListener != null){
-            mListener.onDairyDeleteFragment();
-        }
+    }
+
+    public void refreshFragment(){
+        if (mListener != null) mListener.onDairyDeleteFragment();
     }
 
     public interface onDairyNoteFragmentInteraction {

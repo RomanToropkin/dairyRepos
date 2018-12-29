@@ -1,4 +1,4 @@
-package com.franq.dairy.Model;
+package com.franq.dairy.Model.local;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -8,12 +8,17 @@ import android.util.Log;
  * Хранилище настроек. Базовый способ хранения внутренних данных
  */
 public class PreferencesData {
+
+    public static String baseURL = "http://192.168.1.217:8080/";
+
     /**Ключ к хранилищу логина и пароля*/
     private static final String PREFERENCES = "app";
     /**Ключ к логину*/
     private static final String PREFERENCES_LOGIN = "login";
     /**Ключ к паролю*/
     private static final String PREFERENCES_PASS = "pass";
+
+    private static final String PREFERENCES_IP = "ip";
     /**
      * Ключ к куки
      */
@@ -21,6 +26,8 @@ public class PreferencesData {
     /**Объект, взаимодействуюший в хранилищем*/
     private SharedPreferences sharedPreferences;
     private static volatile PreferencesData instance;
+    
+    public static final String DEFAULT_LOGIN = "guest";
 
     /**Конструктор - инициализвция объекта хранилища*/
     private PreferencesData(Context context) {
@@ -54,7 +61,7 @@ public class PreferencesData {
     /**Возвращает логин
      * @return логин*/
     public String getLogin() {
-        return sharedPreferences.getString(PREFERENCES_LOGIN, "");
+        return sharedPreferences.getString(PREFERENCES_LOGIN, DEFAULT_LOGIN);
     }
 
     /**Возвращает пароль
@@ -64,10 +71,20 @@ public class PreferencesData {
     }
 
     public void addCookie(String cookie) {
-        Log.d("cookie", "куки получил : " + cookie);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(PREFERENCES_UID, cookie)
                 .apply();
+    }
+
+    public void addIp(String ip){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(PREFERENCES_IP, ip)
+                .apply();
+    }
+
+    public String getIp() {
+        baseURL = sharedPreferences.getString( PREFERENCES_IP, baseURL );
+        return baseURL;
     }
 
     /**
@@ -85,7 +102,8 @@ public class PreferencesData {
      */
     public void clearData() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove(PREFERENCES_LOGIN)
+        editor
+                .putString( PREFERENCES_LOGIN, DEFAULT_LOGIN )
                 .remove(PREFERENCES_PASS)
                 .remove(PREFERENCES_UID)
                 .apply();

@@ -1,4 +1,4 @@
-package com.franq.dairy.Model.Server;
+package com.franq.dairy.Model.remote;
 
 import android.content.Context;
 import android.util.Log;
@@ -8,7 +8,7 @@ import com.franq.dairy.Model.JsonModels.MReq;
 import com.franq.dairy.Model.JsonModels.Note;
 import com.franq.dairy.Model.JsonModels.Result;
 import com.franq.dairy.Model.JsonModels.User;
-import com.franq.dairy.Model.PreferencesData;
+import com.franq.dairy.Model.local.PreferencesData;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -29,10 +29,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Server {
 
     public static final String TAG = "DairyAPI";
+
+    private String baseURL;
     /**
      * URL сервера
      */
-    public static String baseURL = "http://192.168.1.217:8080/";
     /**Retrofit объект, взаимодействуюший с сервером*/
     private Retrofit retrofit;
     /**API сервера
@@ -43,6 +44,8 @@ public class Server {
 
     /**Конструктор - инициализация Retrofit и объекта интерфейса*/
     private Server(Context context) {
+        preferencesData = PreferencesData.getInstance( context );
+        baseURL = preferencesData.getIp();
         Log.d( "Http", "ip : " + baseURL );
 
         retrofit = new Retrofit.Builder()
@@ -51,7 +54,6 @@ public class Server {
                 .addCallAdapterFactory( RxJava2CallAdapterFactory.create( ) )
                 .build();
         apiService = retrofit.create(APIService.class);
-        preferencesData = PreferencesData.getInstance( context );
 
     }
 
